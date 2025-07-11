@@ -1,0 +1,336 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Tahoma', 'Arial', sans-serif;
+    background-color: #008080;
+    user-select: none;
+}
+
+.desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    margin: 10px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
+}
+
+.icon img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+}
+
+.file-explorer {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    border: 3px solid #dfdfdf;
+    border-top-color: white;
+    border-left-color: white;
+    background-color: #c0c0c0;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    top: 100px;
+    left: 100px;
+}
+
+.window-header {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+
+.window-controls button {
+    background-color: #c0c0c0;
+    border: 1px solid #808080;
+    border-top-color: white;
+    border-left-color: white;
+    margin-left: 2px;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.window-controls button:active {
+    border: 1px solid #808080;
+    border-top-color: black;
+    border-left-color: black;
+}
+
+.window-content {
+    flex: 1;
+    padding: 5px;
+    overflow: auto;
+}
+
+.folder-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-gap: 10px;
+}
+
+.file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.file:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.file img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+}
+
+.popup-window {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    border: 3px solid #dfdfdf;
+    border-top-color: white;
+    border-left-color: white;
+    background-color: #c0c0c0;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+}
+
+.popup-content {
+    flex: 1;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #808080;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Windows XP Desktop CSS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Tahoma', 'Microsoft Sans Serif', sans-serif;
+    background-color: #008080;
+    background-image: url('https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png');
+    background-size: cover;
+    user-select: none;
+    cursor: default;
+}
+
+/* Desktop Area */
+.desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 30px; /* Make space for taskbar */
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-auto-rows: min-content;
+    align-content: start;
+    gap: 20px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+    border-top: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.start-button {
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to bottom, #4a8ad4, #2468d0);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    border: none;
+    border-right: 1px solid #104a8a;
+    cursor: pointer;
+}
+
+.start-button:hover {
+    background: linear-gradient(to bottom, #5a9ae4, #3478e0);
+}
+
+.start-button:active {
+    background: linear-gradient(to bottom, #3a7ac4, #1458b0);
+}
+
+.start-button img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.taskbar-items {
+    display: flex;
+    height: 100%;
+    margin-left: 5px;
+}
+
+.taskbar-item {
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.taskbar-item.active {
+    background: linear-gradient(to bottom, #a0a0a0, #808080);
+    border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.taskbar-item img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+/* Icons */
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+.icon:hover {
+    background-color: rgba(0, 0, 128, 0.3);
+    border-radius: 3px;
+}
+
+.icon:active {
+    background-color: rgba(0, 0, 128, 0.5);
+}
+
+.icon img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+    object-fit: contain;
+}
+
+/* File Explorer Window */
+.file-explorer {
+    position: absolute;
+    width: 500px;
+    height: 350px;
+    border: 3px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    background-color: #c0c0c0;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    top: 100px;
+    left: 100px;
+    z-index: 100;
+}
+
+/* Add to your existing CSS */
+.start-menu {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    width: 300px;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 2000;
+}
+
+.start-menu-header {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.start-menu-items {
+    padding: 5px 0;
+}
+
+.start-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.start-menu-item:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.start-menu-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.start-menu-separator {
+    height: 2px;
+    background-color: #808080;
+    margin: 5px 0;
+    border-top: 1px solid #ffffff;
+}

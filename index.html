@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Desktop</title>
+    <link rel="stylesheet" href="desktop.css">
+</head>
+<body>
+    <div class="desktop">
+        <div class="icon" id="file-explorer">
+            <img src="Explorer.png" alt="File Explorer">
+            <span>File Explorer</span>
+        </div>
+    </div>
+
+    <div class="file-explorer" id="explorer-window">
+        <div class="window-header">
+            <span class="window-title">File Explorer</span>
+            <div class="window-controls">
+                <button class="minimize">-</button>
+                <button class="maximize">□</button>
+                <button class="close">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="folder-view">
+                <div class="file" data-file="folder1">
+                    <img src="Folder_Opened.png" alt="Folder">
+                    <span>Mira</span>
+                </div>
+                <div class="file" data-file="folder2">
+                    <img src="Folder_Opened.png" alt="Folder">
+                    <span>Emily</span>
+                </div>
+                <div class="file" data-file="file1">
+                    <img src="TXT.png" alt="File">
+                    <span>credits.txt</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="taskbar">
+        <button class="start-button" id="start-button">
+            <img src="windows_icon.png" alt="Start">
+            <span>Start</span>
+        </button>
+        <div class="taskbar-items">
+            <div class="taskbar-item" id="explorer-taskbar-item">
+                <img src="Explorer.png" alt="File Explorer">
+                <span>File Explorer</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">
+        Windows XP
+        </div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" id="start-explorer">
+                <img src="Explorer.png" alt="File Explorer">
+                <span>File Explorer</span>
+            </div>
+            <div class="start-menu-item" id="start-restart">
+                <img src="restart_icon.png" alt="Restart">
+                <span>Restart</span>
+            </div>
+            <div class="start-menu-separator"></div>
+            <div class="start-menu-item" id="start-shutdown">
+                <img src="shutdown_icon.png" alt="Shutdown">
+                <span>Shutdown</span>
+            </div>
+        </div>
+    </div>
+    <script src="desktop.js"></script>
+</body>
+</html>
