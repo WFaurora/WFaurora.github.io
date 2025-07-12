@@ -174,7 +174,8 @@ function createWindowElement(title, content, isImage = false) {
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'popup-content';
-    
+    contentDiv.style.overflow = 'auto'; // Ensure content is scrollable if needed
+
     if (isImage) {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'image-container';
@@ -192,6 +193,7 @@ function createWindowElement(title, content, isImage = false) {
         
         img.onload = function() {
             const padding = 40;
+            const headerHeight = header.offsetHeight;
             const maxWidth = window.innerWidth * 0.8;
             const maxHeight = window.innerHeight * 0.8;
             
@@ -204,45 +206,22 @@ function createWindowElement(title, content, isImage = false) {
                 imgHeight *= ratio;
             }
             
+            // Set image container dimensions
+            imgContainer.style.width = `${imgWidth}px`;
+            imgContainer.style.height = `${imgHeight}px`;
+            
+            // Set window dimensions (including header)
             windowDiv.style.width = `${imgWidth + padding}px`;
-            windowDiv.style.height = `${imgHeight + padding}px`;
+            windowDiv.style.height = `${imgHeight + padding + headerHeight}px`;
+            
+            // Ensure content area fills remaining space
+            contentDiv.style.height = `calc(100% - ${headerHeight}px)`;
         };
         
         imgContainer.appendChild(img);
         contentDiv.appendChild(imgContainer);
     } else {
-        const textContainer = document.createElement('div');
-        textContainer.className = 'text-container';
-        textContainer.style.whiteSpace = 'pre-wrap';
-        textContainer.style.padding = '15px';
-        textContainer.style.overflow = 'auto';
-        textContainer.textContent = content;
-        
-        contentDiv.appendChild(textContainer);
-        
-        // Create temporary element for measurement
-        const measure = document.createElement('div');
-        measure.style.position = 'absolute';
-        measure.style.visibility = 'hidden';
-        measure.style.whiteSpace = 'pre-wrap';
-        measure.style.fontFamily = 'monospace';
-        measure.style.padding = '15px';
-        measure.textContent = content;
-        document.body.appendChild(measure);
-        
-        const contentWidth = measure.scrollWidth + 40;
-        const contentHeight = measure.scrollHeight + 60;
-        document.body.removeChild(measure);
-        
-        windowDiv.style.width = `${Math.min(
-            Math.max(contentWidth, 300),
-            window.innerWidth * 0.8
-        )}px`;
-        
-        windowDiv.style.height = `${Math.min(
-            Math.max(contentHeight, 200),
-            window.innerHeight * 0.7
-        )}px`;
+        // ... (keep your existing text content handling)
     }
     
     windowDiv.appendChild(header);
