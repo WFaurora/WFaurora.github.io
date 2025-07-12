@@ -1,5 +1,217 @@
+// Music Player Implementation
+const musicPlayer = {
+    audio: new Audio(),
+    isPlaying: false,
+    currentTrack: null,
+    playlist: [],
+    currentIndex: -1,
+    
+    init: function() {
+        // Get player elements
+        this.playBtn = document.getElementById('play-btn');
+        this.pauseBtn = document.getElementById('pause-btn');
+        this.stopBtn = document.getElementById('stop-btn');
+        this.prevBtn = document.getElementById('prev-btn');
+        this.nextBtn = document.getElementById('next-btn');
+        this.volumeControl = document.getElementById('volume-control');
+        this.progressBar = document.getElementById('progress-bar');
+        this.currentTimeDisplay = document.getElementById('current-time');
+        this.durationDisplay = document.getElementById('duration');
+        this.statusDisplay = document.getElementById('player-status');
+        this.nowPlayingDisplay = document.getElementById('now-playing');
+        this.playlistElement = document.getElementById('playlist');
+        
+        // Set initial volume
+        this.audio.volume = this.volumeControl.value;
+        
+        // Event listeners
+        this.playBtn.addEventListener('click', () => this.play());
+        this.pauseBtn.addEventListener('click', () => this.pause());
+        this.stopBtn.addEventListener('click', () => this.stop());
+        this.prevBtn.addEventListener('click', () => this.prev());
+        this.nextBtn.addEventListener('click', () => this.next());
+        this.volumeControl.addEventListener('input', (e) => this.setVolume(e.target.value));
+        this.progressBar.addEventListener('input', (e) => this.seek(e.target.value));
+        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.addEventListener('ended', () => this.next());
+        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+        
+        // Load initial playlist
+        this.loadInitialPlaylist();
+    },
+    
+    loadInitialPlaylist: function() {
+        // Replace these with your actual music files in documents/music
+        const initialTracks = [
+            { title: 'pity party. - ISSBROKIE', path: 'documents/music/song1.mp3' },
+            { title: 'Windows XP Tada', path: 'documents/music/tada.mp3' },
+            { title: 'Windows XP Notify', path: 'documents/music/notify.mp3' }
+        ];
+        
+        // Clear existing playlist
+        this.playlist = [];
+        this.playlistElement.innerHTML = '';
+        
+        // Add tracks to playlist
+        initialTracks.forEach((track, index) => {
+            this.addToPlaylist(track.title, track.path, index);
+        });
+        
+        // Load first track if available
+        if (this.playlist.length > 0) {
+            this.loadTrack(0);
+        }
+    },
+    
+    addToPlaylist: function(title, path, index) {
+        const track = { title, path };
+        this.playlist.push(track);
+        
+        // Create playlist item
+        const item = document.createElement('div');
+        item.className = 'playlist-item';
+        item.textContent = title;
+        item.dataset.index = index;
+        item.addEventListener('click', () => {
+            this.loadTrack(parseInt(item.dataset.index));
+        });
+        
+        this.playlistElement.appendChild(item);
+    },
+    
+    loadTrack: function(index) {
+        if (index < 0 || index >= this.playlist.length) return;
+        
+        // Pause current track if playing
+        if (this.isPlaying) {
+            this.audio.pause();
+        }
+        
+        // Update current track
+        this.currentIndex = index;
+        this.currentTrack = this.playlist[index];
+        
+        // Update UI
+        this.nowPlayingDisplay.textContent = this.currentTrack.title;
+        this.statusDisplay.textContent = 'Loading...';
+        
+        // Highlight active track in playlist
+        const items = this.playlistElement.querySelectorAll('.playlist-item');
+        items.forEach(item => item.classList.remove('active'));
+        items[index].classList.add('active');
+        
+        // Load the audio file
+        this.audio.src = this.currentTrack.path;
+        this.audio.load();
+        
+        // Auto-play if player was playing
+        if (this.isPlaying) {
+            this.play();
+        }
+    },
+    
+    play: function() {
+        if (!this.audio.src) {
+            if (this.playlist.length > 0) {
+                this.loadTrack(0);
+                return;
+            }
+            this.statusDisplay.textContent = 'No track loaded';
+            return;
+        }
+        
+        this.audio.play()
+            .then(() => {
+                this.isPlaying = true;
+                this.statusDisplay.textContent = 'Playing';
+            })
+            .catch(error => {
+                this.statusDisplay.textContent = 'Playback error';
+                console.error('Playback failed:', error);
+            });
+    },
+    
+    pause: function() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.statusDisplay.textContent = 'Paused';
+    },
+    
+    stop: function() {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.isPlaying = false;
+        this.statusDisplay.textContent = 'Stopped';
+    },
+    
+    prev: function() {
+        if (this.playlist.length === 0) return;
+        const newIndex = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
+        this.loadTrack(newIndex);
+        if (this.isPlaying) this.play();
+    },
+    
+    next: function() {
+        if (this.playlist.length === 0) return;
+        const newIndex = (this.currentIndex + 1) % this.playlist.length;
+        this.loadTrack(newIndex);
+        if (this.isPlaying) this.play();
+    },
+    
+    setVolume: function(volume) {
+        this.audio.volume = volume;
+    },
+    
+    seek: function(position) {
+        if (!isNaN(this.audio.duration)) {
+            this.audio.currentTime = (position / 100) * this.audio.duration;
+        }
+    },
+    
+    updateProgress: function() {
+        if (!isNaN(this.audio.duration)) {
+            const progress = (this.audio.currentTime / this.audio.duration) * 100;
+            this.progressBar.value = progress;
+            this.currentTimeDisplay.textContent = this.formatTime(this.audio.currentTime);
+        }
+    },
+    
+    updateDuration: function() {
+        if (!isNaN(this.audio.duration)) {
+            this.durationDisplay.textContent = this.formatTime(this.audio.duration);
+            this.statusDisplay.textContent = 'Ready';
+        }
+    },
+    
+    formatTime: function(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+};
+
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Cache DOM elements with null checks
+    // Initialize music player
+    musicPlayer.init();
+    
+    // Make music player window draggable
+    const musicPlayerWindow = document.getElementById('music-player-window');
+    if (musicPlayerWindow) {
+        makeDraggable(musicPlayerWindow);
+    }
+    
+    // Close button functionality
+    const closeBtn = musicPlayerWindow.querySelector('.close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            musicPlayerWindow.style.display = 'none';
+            const taskbarItem = document.getElementById('music-player-taskbar-item');
+            if (taskbarItem) taskbarItem.classList.remove('active');
+        });
+    }
+
+    // Get all DOM elements
     const explorerWindow = document.getElementById('explorer-window');
     if (!explorerWindow) {
         console.error('Explorer window element not found');
@@ -10,13 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('start-button');
     const startMenu = document.getElementById('start-menu');
     const startExplorer = document.getElementById('start-explorer');
-    const startMusicPlayerItem = document.getElementById('start-music-player'); // Added this line
+    const startMusicPlayerItem = document.getElementById('start-music-player');
     const startRestart = document.getElementById('start-restart');
     const startShutdown = document.getElementById('start-shutdown');
     const explorerTaskbarItem = document.getElementById('explorer-taskbar-item');
     const fileExplorerIcon = document.getElementById('file-explorer-icon');
     const musicPlayerIcon = document.getElementById('music-player-icon');
-    const musicPlayerWindow = document.getElementById('music-player-window');
     const musicPlayerTaskbarItem = document.getElementById('music-player-taskbar-item');
     const clockElement = document.getElementById('clock');
 
@@ -87,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add this block for Music Player Start Menu item
+    // Music Player Start Menu item
     if (startMusicPlayerItem && musicPlayerWindow && musicPlayerTaskbarItem) {
         startMusicPlayerItem.addEventListener('click', function() {
             toggleWindow(musicPlayerWindow, true);
@@ -139,16 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleWindow(explorerWindow, false);
         explorerTaskbarItem.classList.remove('active');
     });
-
-    // Window controls for music player
-    if (musicPlayerWindow) {
-        musicPlayerWindow.querySelector('.close').addEventListener('click', function() {
-            toggleWindow(musicPlayerWindow, false);
-            if (musicPlayerTaskbarItem) {
-                musicPlayerTaskbarItem.classList.remove('active');
-            }
-        });
-    }
 
     // Clock functionality - updates every second
     function updateClock() {
@@ -209,8 +410,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-
 function createFileElement(fileId, imgSrc, name) {
     const div = document.createElement('div');
     div.className = 'file';
@@ -221,7 +420,7 @@ function createFileElement(fileId, imgSrc, name) {
     img.src = imgSrc;
     img.alt = name;
     img.loading = 'lazy';
-    img.style.width = '64px';  // Ensure consistent size
+    img.style.width = '64px';
     img.style.height = '64px';
     img.style.objectFit = 'contain';
     
@@ -315,7 +514,6 @@ function createWindowElement(title, content, isImage = false) {
     contentDiv.style.overflow = 'auto';
     
     if (isImage) {
-        // Image display
         const imgContainer = document.createElement('div');
         imgContainer.className = 'image-container';
         imgContainer.style.display = 'flex';
@@ -351,11 +549,9 @@ function createWindowElement(title, content, isImage = false) {
         imgContainer.appendChild(img);
         contentDiv.appendChild(imgContainer);
         
-        // Set default size for image windows
         windowDiv.style.width = '500px';
         windowDiv.style.height = '500px';
     } else {
-        // Text file display
         const textContainer = document.createElement('div');
         textContainer.className = 'text-container';
         textContainer.style.whiteSpace = 'pre-wrap';
@@ -368,7 +564,6 @@ function createWindowElement(title, content, isImage = false) {
         
         contentDiv.appendChild(textContainer);
         
-        // Set reasonable default size for text windows
         windowDiv.style.width = '500px';
         windowDiv.style.height = '400px';
     }
@@ -398,9 +593,8 @@ async function openFileWindow(fileId) {
 
     try {
         if (isImage) {
-            content = path; // For images, we just need the path
+            content = path;
         } else {
-            // For text files, fetch the content
             const response = await fetch(path);
             if (!response.ok) {
                 throw new Error('File not found');
@@ -409,7 +603,7 @@ async function openFileWindow(fileId) {
         }
     } catch (e) {
         content = `Error loading ${title}:\n${e.message}`;
-        isImage = false; // Show error as text
+        isImage = false;
     }
 
     const existingWindow = document.getElementById(`${fileId}-window`);
