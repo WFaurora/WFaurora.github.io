@@ -1,139 +1,4 @@
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow: hidden;
-    font-family: 'Tahoma', 'Arial', sans-serif;
-    background-color: #008080;
-    user-select: none;
-}
-
-.desktop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 10px;
-}
-
-.icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80px;
-    margin: 10px;
-    color: white;
-    text-align: center;
-    text-shadow: 1px 1px 1px black;
-    cursor: pointer;
-}
-
-.icon img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 5px;
-}
-
-.file-explorer {
-    position: absolute;
-    width: 400px;
-    height: 300px;
-    border: 3px solid #dfdfdf;
-    border-top-color: white;
-    border-left-color: white;
-    background-color: #c0c0c0;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    display: none;
-    flex-direction: column;
-    top: 100px;
-    left: 100px;
-}
-
-.window-header {
-    background: linear-gradient(90deg, #000080, #1084d0);
-    color: white;
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: move;
-}
-
-.window-controls button {
-    background-color: #c0c0c0;
-    border: 1px solid #808080;
-    border-top-color: white;
-    border-left-color: white;
-    margin-left: 2px;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.window-controls button:active {
-    border: 1px solid #808080;
-    border-top-color: black;
-    border-left-color: black;
-}
-
-.window-content {
-    flex: 1;
-    padding: 5px;
-    overflow: auto;
-}
-
-.folder-view {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 80px);
-    grid-gap: 10px;
-}
-
-.file {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.file:hover {
-    background-color: #000080;
-    color: white;
-}
-
-.file img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 5px;
-}
-
-.popup-window {
-    position: absolute;
-    width: 300px;
-    height: 200px;
-    border: 3px solid #dfdfdf;
-    border-top-color: white;
-    border-left-color: white;
-    background-color: #c0c0c0;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    display: none;
-    flex-direction: column;
-}
-
-.popup-content {
-    flex: 1;
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #808080;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Windows XP Desktop CSS */
+/* Windows XP Desktop - Enhanced CSS */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -148,13 +13,13 @@ body {
     font-family: 'Tahoma', 'Microsoft Sans Serif', sans-serif;
     background-color: #008080;
     background-image: url('https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png');
-    /* Fixed background properties */
     background-size: cover;
-    background-position: center;
+    background-position: center bottom;
     background-repeat: no-repeat;
     background-attachment: fixed;
     user-select: none;
     cursor: default;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 /* Desktop Area */
@@ -163,13 +28,48 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 30px; /* Make space for taskbar */
+    bottom: 30px;
     padding: 10px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 80px);
     grid-auto-rows: min-content;
     align-content: start;
     gap: 20px;
+    overflow: hidden;
+}
+
+/* Icons */
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.icon:hover {
+    background-color: rgba(0, 0, 128, 0.3);
+    border: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
+.icon:active {
+    background-color: rgba(0, 0, 128, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.icon img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+    object-fit: contain;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 /* Taskbar */
@@ -184,11 +84,14 @@ body {
     display: flex;
     align-items: center;
     z-index: 1000;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
+    padding: 0 5px;
 }
 
 .start-button {
-    height: 100%;
-    padding: 0 10px;
+    height: 24px;
+    padding: 0 8px 0 6px;
+    margin: 0 2px;
     display: flex;
     align-items: center;
     background: linear-gradient(to bottom, #4a8ad4, #2468d0);
@@ -198,6 +101,7 @@ body {
     border: none;
     border-right: 1px solid #104a8a;
     cursor: pointer;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .start-button:hover {
@@ -206,23 +110,27 @@ body {
 
 .start-button:active {
     background: linear-gradient(to bottom, #3a7ac4, #1458b0);
+    padding-top: 1px;
 }
 
 .start-button img {
     width: 16px;
     height: 16px;
     margin-right: 5px;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 .taskbar-items {
     display: flex;
     height: 100%;
     margin-left: 5px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .taskbar-item {
-    height: 100%;
-    padding: 0 10px;
+    height: 22px;
+    padding: 0 8px;
     display: flex;
     align-items: center;
     background: linear-gradient(to bottom, #c0c0c0, #a0a0a0);
@@ -230,65 +138,122 @@ body {
     border-color: #ffffff #808080 #808080 #ffffff;
     font-size: 12px;
     cursor: pointer;
+    margin-right: 2px;
+    white-space: nowrap;
+    max-width: 160px;
+    overflow: hidden;
 }
 
 .taskbar-item.active {
     background: linear-gradient(to bottom, #a0a0a0, #808080);
     border-color: #808080 #ffffff #ffffff #808080;
+    padding-top: 1px;
 }
 
 .taskbar-item img {
     width: 16px;
     height: 16px;
     margin-right: 5px;
+    flex-shrink: 0;
 }
 
-/* Icons */
-.icon {
+/* Clock */
+.clock {
+    height: 22px;
+    padding: 0 8px;
+    margin-left: auto;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 80px;
-    padding: 5px;
-    color: white;
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    font-size: 12px;
+    font-family: 'Tahoma', 'Microsoft Sans Serif', sans-serif;
+    color: black;
+    cursor: default;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 70px;
     text-align: center;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
 }
 
-.icon:hover {
-    background-color: rgba(0, 0, 128, 0.3);
-    border-radius: 3px;
+.clock:hover {
+    background-color: #a0a0a0;
 }
 
-.icon:active {
-    background-color: rgba(0, 0, 128, 0.5);
+
+.clock:hover {
+    background-color: #a0a0a0;
 }
 
-.icon img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 5px;
-    object-fit: contain;
-}
-
-/* File Explorer Window */
-.file-explorer {
+/* Windows */
+.popup-window, .file-explorer {
     position: absolute;
-    width: 500px;
-    height: 350px;
     border: 3px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
     background-color: #c0c0c0;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     display: none;
     flex-direction: column;
-    top: 100px;
-    left: 100px;
     z-index: 100;
+    min-width: 200px;
+    min-height: 150px;
 }
 
-/* Add to your existing CSS */
+.window-header {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    font-size: 13px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.window-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.window-controls {
+    display: flex;
+}
+
+.window-controls button {
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    margin-left: 2px;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.window-controls button:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding-top: 1px;
+    padding-left: 1px;
+}
+
+.window-content {
+    flex: 1;
+    padding: 5px;
+    overflow: auto;
+    background-color: white;
+    border: 1px solid #808080;
+    margin: 5px;
+}
+
+/* Start Menu */
 .start-menu {
     position: fixed;
     bottom: 30px;
@@ -305,9 +270,10 @@ body {
 .start-menu-header {
     background: linear-gradient(to right, #000080, #1084d0);
     color: white;
-    padding: 5px 10px;
+    padding: 8px 10px;
     font-weight: bold;
     font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .start-menu-items {
@@ -317,8 +283,9 @@ body {
 .start-menu-item {
     display: flex;
     align-items: center;
-    padding: 5px 20px;
+    padding: 6px 20px;
     cursor: pointer;
+    font-size: 13px;
 }
 
 .start-menu-item:hover {
@@ -337,4 +304,110 @@ body {
     background-color: #808080;
     margin: 5px 0;
     border-top: 1px solid #ffffff;
+}
+
+/* Music Player Specific Styles */
+.music-player {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.player-display {
+    background-color: black;
+    color: lime;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    height: 60px;
+    margin: 5px;
+    border: 2px inset #c0c0c0;
+    overflow: hidden;
+}
+
+.player-controls {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.player-btn {
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.player-btn:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding-top: 1px;
+    padding-left: 1px;
+}
+
+/* File Explorer Specific */
+.folder-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-gap: 10px;
+    padding: 5px;
+}
+
+.file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.file:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.file img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+    object-fit: contain;
+}
+
+/* Date Tooltip for Clock */
+.date-tooltip {
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    width: 150px;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 5px;
+    display: none;
+    z-index: 1001;
+}
+
+.clock:hover .date-tooltip {
+    display: block;
+}
+
+.month-year {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.day-date {
+    font-size: 11px;
+}
+
+.user-icon {
+    width: 1.5em;  /* Relative to font size */
+    height: 1.5em;
+    max-width: 32px;
+    max-height: 32px;
+    margin-right: 0.5em;
+    object-fit: contain;
 }

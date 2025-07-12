@@ -8,13 +8,21 @@
 </head>
 <body>
     <div class="desktop">
-        <div class="icon" id="file-explorer">
+        <!-- File Explorer Icon -->
+        <div class="icon" id="file-explorer-icon">
             <img src="Explorer.png" alt="File Explorer">
             <span>File Explorer</span>
         </div>
+        
+        <!-- Music Player Icon -->
+        <div class="icon" id="music-player-icon">
+            <img src="media_player.png" alt="Music Player">
+            <span>Music Player</span>
+        </div>
     </div>
 
-    <div class="file-explorer" id="explorer-window">
+    <!-- File Explorer Window -->
+    <div class="popup-window" id="explorer-window">
         <div class="window-header">
             <span class="window-title">File Explorer</span>
             <div class="window-controls">
@@ -41,6 +49,49 @@
         </div>
     </div>
 
+    <!-- Music Player Window -->
+    <div class="popup-window" id="music-player-window">
+        <div class="window-header">
+            <span class="window-title">Windows Media Player</span>
+            <div class="window-controls">
+                <button class="minimize">-</button>
+                <button class="maximize">□</button>
+                <button class="close">X</button>
+            </div>
+        </div>
+        <div class="window-content" style="background-color: #c0c0c0; padding: 10px;">
+            <div class="music-player">
+                <div class="player-display">
+                    <div id="now-playing">No file selected</div>
+                    <div id="player-status">Ready</div>
+                </div>
+                <div class="player-controls">
+                    <div class="player-buttons">
+                        <button class="player-btn" id="play-btn">▶ Play</button>
+                        <button class="player-btn" id="pause-btn">❚❚ Pause</button>
+                        <button class="player-btn" id="stop-btn">■ Stop</button>
+                    </div>
+                    <div class="player-buttons">
+                        <button class="player-btn" id="prev-btn">⏮ Previous</button>
+                        <button class="player-btn" id="next-btn">⏭ Next</button>
+                    </div>
+                    <input type="file" id="file-input" accept=".mp3" style="display: none;">
+                    <button class="player-btn" id="open-file-btn">📂 Open File</button>
+                    <div class="volume-control">
+                        <span>Volume:</span>
+                        <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                    <div class="progress-container">
+                        <span id="current-time">0:00</span>
+                        <input type="range" id="progress-bar" min="0" max="100" value="0">
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
     <div class="taskbar">
         <button class="start-button" id="start-button">
             <img src="windows_icon.png" alt="Start">
@@ -51,29 +102,35 @@
                 <img src="Explorer.png" alt="File Explorer">
                 <span>File Explorer</span>
             </div>
+            <div class="taskbar-item" id="music-player-taskbar-item">
+                <img src="media_player.png" alt="Music Player">
+                <span>Music Player</span>
+            </div>
+        </div>
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Simplified Start Menu -->
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">
+            <img src="user_icon.png" alt="User" class="user-icon">
+            <span>User Account</span>
+        </div>
+        
+        <div class="start-menu-panes">
+            <div class="start-menu-pane programs-pane">
+                <div class="start-menu-item" id="start-explorer">
+                    <img src="Explorer.png" alt="File Explorer">
+                    <span>File Explorer</span>
+                </div>
+                <div class="start-menu-item" id="start-music-player">
+                    <img src="media_player.png" alt="Media Player">
+                    <span>Windows Media Player</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="start-menu" id="start-menu">
-        <div class="start-menu-header">
-        Windows XP
-        </div>
-        <div class="start-menu-items">
-            <div class="start-menu-item" id="start-explorer">
-                <img src="Explorer.png" alt="File Explorer">
-                <span>File Explorer</span>
-            </div>
-            <div class="start-menu-item" id="start-restart">
-                <img src="restart_icon.png" alt="Restart">
-                <span>Restart</span>
-            </div>
-            <div class="start-menu-separator"></div>
-            <div class="start-menu-item" id="start-shutdown">
-                <img src="shutdown_icon.png" alt="Shutdown">
-                <span>Shutdown</span>
-            </div>
-        </div>
-    </div>
     <script src="desktop.js"></script>
 </body>
 </html>
