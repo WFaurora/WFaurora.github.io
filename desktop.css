@@ -453,10 +453,16 @@ body {
 .text-container {
     white-space: pre-wrap;
     font-family: 'Courier New', monospace;
-    font-size: 12px;
     padding: 15px;
     overflow: auto;
+    background: white;
     height: 100%;
+}
+
+.popup-content {
+    background: white;
+    flex: 1;
+    overflow: auto;
 }
 
 /* Date Tooltip for Clock */

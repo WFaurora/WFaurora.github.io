@@ -278,12 +278,6 @@ function createWindowElement(title, content, isImage = false) {
     const windowDiv = document.createElement('div');
     windowDiv.className = 'popup-window';
     
-    // Set default size for image windows
-    if (isImage) {
-        windowDiv.style.width = '500px';
-        windowDiv.style.height = '500px';
-    }
-    
     const header = document.createElement('div');
     header.className = 'window-header';
     
@@ -318,9 +312,10 @@ function createWindowElement(title, content, isImage = false) {
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'popup-content';
-    contentDiv.style.overflow = 'auto'; // Add scrollbars if needed
+    contentDiv.style.overflow = 'auto';
     
     if (isImage) {
+        // Image display
         const imgContainer = document.createElement('div');
         imgContainer.className = 'image-container';
         imgContainer.style.display = 'flex';
@@ -336,7 +331,6 @@ function createWindowElement(title, content, isImage = false) {
         img.style.maxHeight = '100%';
         img.style.objectFit = 'contain';
         
-        // Adjust window size based on image dimensions
         img.onload = function() {
             const maxWidth = window.innerWidth * 0.8;
             const maxHeight = window.innerHeight * 0.8;
@@ -344,22 +338,39 @@ function createWindowElement(title, content, isImage = false) {
             let imgWidth = img.naturalWidth;
             let imgHeight = img.naturalHeight;
             
-            // If image is larger than max dimensions, scale it down
             if (imgWidth > maxWidth || imgHeight > maxHeight) {
                 const ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
                 imgWidth *= ratio;
                 imgHeight *= ratio;
             }
             
-            // Set window size with some padding
             windowDiv.style.width = `${Math.min(imgWidth + 40, maxWidth)}px`;
             windowDiv.style.height = `${Math.min(imgHeight + 60, maxHeight)}px`;
         };
         
         imgContainer.appendChild(img);
         contentDiv.appendChild(imgContainer);
+        
+        // Set default size for image windows
+        windowDiv.style.width = '500px';
+        windowDiv.style.height = '500px';
     } else {
-        // ... (keep existing text file handling code)
+        // Text file display
+        const textContainer = document.createElement('div');
+        textContainer.className = 'text-container';
+        textContainer.style.whiteSpace = 'pre-wrap';
+        textContainer.style.fontFamily = 'Courier New, monospace';
+        textContainer.style.padding = '15px';
+        textContainer.style.overflow = 'auto';
+        textContainer.style.backgroundColor = 'white';
+        textContainer.style.height = '100%';
+        textContainer.textContent = content;
+        
+        contentDiv.appendChild(textContainer);
+        
+        // Set reasonable default size for text windows
+        windowDiv.style.width = '500px';
+        windowDiv.style.height = '400px';
     }
     
     windowDiv.appendChild(header);
@@ -382,16 +393,23 @@ async function openFileWindow(fileId) {
     const { title, path, type } = fileData[fileId] || {};
     if (!title) return;
 
-    let content = path;
+    let content = '';
     let isImage = type === 'image';
 
-    if (!isImage) {
-        try {
+    try {
+        if (isImage) {
+            content = path; // For images, we just need the path
+        } else {
+            // For text files, fetch the content
             const response = await fetch(path);
-            content = response.ok ? await response.text() : `File not found: ${title}`;
-        } catch (e) {
-            content = `Error loading ${title}:\n${e.message}`;
+            if (!response.ok) {
+                throw new Error('File not found');
+            }
+            content = await response.text();
         }
+    } catch (e) {
+        content = `Error loading ${title}:\n${e.message}`;
+        isImage = false; // Show error as text
     }
 
     const existingWindow = document.getElementById(`${fileId}-window`);
