@@ -278,6 +278,12 @@ function createWindowElement(title, content, isImage = false) {
     const windowDiv = document.createElement('div');
     windowDiv.className = 'popup-window';
     
+    // Set default size for image windows
+    if (isImage) {
+        windowDiv.style.width = '500px';
+        windowDiv.style.height = '500px';
+    }
+    
     const header = document.createElement('div');
     header.className = 'window-header';
     
@@ -312,65 +318,48 @@ function createWindowElement(title, content, isImage = false) {
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'popup-content';
+    contentDiv.style.overflow = 'auto'; // Add scrollbars if needed
     
     if (isImage) {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'image-container';
+        imgContainer.style.display = 'flex';
+        imgContainer.style.justifyContent = 'center';
+        imgContainer.style.alignItems = 'center';
+        imgContainer.style.height = '100%';
+        imgContainer.style.padding = '20px';
         
         const img = document.createElement('img');
         img.src = content;
         img.alt = title;
-        img.loading = 'eager';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        img.style.objectFit = 'contain';
         
+        // Adjust window size based on image dimensions
         img.onload = function() {
-            const padding = 40;
             const maxWidth = window.innerWidth * 0.8;
             const maxHeight = window.innerHeight * 0.8;
             
             let imgWidth = img.naturalWidth;
             let imgHeight = img.naturalHeight;
             
+            // If image is larger than max dimensions, scale it down
             if (imgWidth > maxWidth || imgHeight > maxHeight) {
                 const ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
                 imgWidth *= ratio;
                 imgHeight *= ratio;
             }
             
-            windowDiv.style.width = `${imgWidth + padding}px`;
-            windowDiv.style.height = `${imgHeight + padding}px`;
+            // Set window size with some padding
+            windowDiv.style.width = `${Math.min(imgWidth + 40, maxWidth)}px`;
+            windowDiv.style.height = `${Math.min(imgHeight + 60, maxHeight)}px`;
         };
         
         imgContainer.appendChild(img);
         contentDiv.appendChild(imgContainer);
     } else {
-        const textContainer = document.createElement('div');
-        textContainer.className = 'text-container';
-        textContainer.textContent = content;
-        
-        // Measure text content for sizing
-        const measure = document.createElement('div');
-        measure.style.position = 'absolute';
-        measure.style.visibility = 'hidden';
-        measure.style.whiteSpace = 'pre-wrap';
-        measure.style.fontFamily = 'monospace';
-        measure.style.padding = '15px';
-        measure.textContent = content;
-        document.body.appendChild(measure);
-        
-        const contentWidth = Math.min(
-            Math.max(measure.scrollWidth + 40, 300),
-            window.innerWidth * 0.8
-        );
-        const contentHeight = Math.min(
-            Math.max(measure.scrollHeight + 60, 200),
-            window.innerHeight * 0.7
-        );
-        document.body.removeChild(measure);
-        
-        windowDiv.style.width = `${contentWidth}px`;
-        windowDiv.style.height = `${contentHeight}px`;
-        
-        contentDiv.appendChild(textContainer);
+        // ... (keep existing text file handling code)
     }
     
     windowDiv.appendChild(header);

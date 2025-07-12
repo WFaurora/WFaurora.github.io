@@ -1,4 +1,4 @@
-/* Windows XP Desktop - Enhanced CSS */
+/* Windows XP Desktop - Complete Enhanced CSS */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -181,11 +181,6 @@ body {
     background-color: #a0a0a0;
 }
 
-
-.clock:hover {
-    background-color: #a0a0a0;
-}
-
 /* Windows */
 .popup-window, .file-explorer {
     position: absolute;
@@ -196,8 +191,15 @@ body {
     display: none;
     flex-direction: column;
     z-index: 100;
-    min-width: 200px;
-    min-height: 150px;
+    min-width: 300px;
+    min-height: 200px;
+}
+
+#explorer-window {
+    width: 400px;       /* Keep the width you wanted */
+    min-width: 400px;   /* Prevent resizing smaller than this */
+    height: 400px;      /* New taller height */
+    min-height: 300px;  /* Minimum height */
 }
 
 .window-header {
@@ -274,33 +276,49 @@ body {
     font-weight: bold;
     font-size: 14px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
 }
 
-.start-menu-items {
-    padding: 5px 0;
+.user-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    object-fit: contain;
+}
+
+.start-menu-panes {
+    display: flex;
+    width: 100%;
+}
+
+.start-menu-pane {
+    width: 100%;
+    padding: 10px;
 }
 
 .start-menu-item {
     display: flex;
     align-items: center;
-    padding: 6px 20px;
+    padding: 6px 10px;
     cursor: pointer;
-    font-size: 13px;
+    transition: all 0.2s ease;
 }
 
 .start-menu-item:hover {
-    background-color: #000080;
+    background-color: #316AC5;
     color: white;
 }
 
 .start-menu-item img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     margin-right: 10px;
+    object-fit: contain;
 }
 
 .start-menu-separator {
-    height: 2px;
+    height: 1px;
     background-color: #808080;
     margin: 5px 0;
     border-top: 1px solid #ffffff;
@@ -331,6 +349,12 @@ body {
     gap: 8px;
 }
 
+.player-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
 .player-btn {
     background-color: #c0c0c0;
     border: 2px solid;
@@ -338,6 +362,7 @@ body {
     padding: 3px 8px;
     font-size: 12px;
     cursor: pointer;
+    min-width: 60px;
 }
 
 .player-btn:active {
@@ -346,34 +371,92 @@ body {
     padding-left: 1px;
 }
 
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.volume-control span {
+    font-size: 12px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.progress-container span {
+    font-size: 12px;
+    min-width: 40px;
+    text-align: center;
+}
+
 /* File Explorer Specific */
 .folder-view {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 80px);
-    grid-gap: 10px;
-    padding: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    overflow-y: auto;
 }
 
 .file {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px;
+    padding: 8px;
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 3px;
+    transition: all 0.2s ease;
 }
 
 .file:hover {
-    background-color: #000080;
+    background-color: #316AC5;
     color: white;
 }
 
 .file img {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
     margin-bottom: 5px;
     object-fit: contain;
+}
+
+.file span {
+    font-size: 12px;
+    text-align: center;
+    word-break: break-word;
+    max-width: 80px;
+}
+
+/* Image Preview Window */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Text File Window */
+.text-container {
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 15px;
+    overflow: auto;
+    height: 100%;
 }
 
 /* Date Tooltip for Clock */
@@ -403,11 +486,18 @@ body {
     font-size: 11px;
 }
 
-.user-icon {
-    width: 1.5em;  /* Relative to font size */
-    height: 1.5em;
-    max-width: 32px;
-    max-height: 32px;
-    margin-right: 0.5em;
-    object-fit: contain;
+/* Shutdown Screen */
+.shutdown-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    z-index: 9999;
 }
