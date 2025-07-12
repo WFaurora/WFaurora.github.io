@@ -44,7 +44,7 @@ const musicPlayer = {
         // Replace these with your actual music files in documents/music
         const initialTracks = [
             { title: 'pity party. - ISSBROKIE', path: 'documents/music/song1.mp3' },
-            { title: 'Windows XP Tada', path: 'documents/music/tada.mp3' },
+            { title: 'PLASTIC! - ISSBROKIE', path: 'documents/music/song2.mp3' },
             { title: 'Windows XP Notify', path: 'documents/music/notify.mp3' }
         ];
         
