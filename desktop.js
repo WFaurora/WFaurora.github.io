@@ -45,7 +45,7 @@ const musicPlayer = {
         const initialTracks = [
             { title: 'pity party. - ISSBROKIE', path: 'documents/music/song1.mp3' },
             { title: 'PLASTIC! - ISSBROKIE', path: 'documents/music/song2.mp3' },
-            { title: 'Windows XP Notify', path: 'documents/music/notify.mp3' }
+            { title: 'Just Leave Me Alone - strxwberrymilk', path: 'documents/music/song3.mp3' }
         ];
         
         // Clear existing playlist
