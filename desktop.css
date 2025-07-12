@@ -148,7 +148,11 @@ body {
     font-family: 'Tahoma', 'Microsoft Sans Serif', sans-serif;
     background-color: #008080;
     background-image: url('https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png');
+    /* Fixed background properties */
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     user-select: none;
     cursor: default;
 }
